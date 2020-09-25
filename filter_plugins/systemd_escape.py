@@ -8,46 +8,53 @@ def systemd_escape(s,
         template=None,
         path=False,
         mangle=False):
-
-    cmd = SYSTEMD_ESCAPE
+    cmd = []
+    cmd.append(SYSTEMD_ESCAPE)
 
     # If any two options are truthy.
     if suffix and (template or mangle) or (template and mangle):
         raise AnsibleFilterError("Options suffix, template, and mangle are mutually exclusive.")
 
     if suffix:
-        cmd += " --suffix='{}'".format(suffix)
+        cmd.append("--suffix={}".format(suffix))
     elif template:
-        cmd += " --template='{}'".format(template)
+        cmd.append("--template={}".format(template))
     elif mangle:
-        cmd += " --mangle"
+        cmd.append("--mangle")
 
     if path:
-        cmd += " --path"
+        cmd.append("--path")
 
-    cmd += " '{}'".format(s)
+    cmd.append(s)
 
     try:
-        res = subprocess.check_call(cmd)
+        res = subprocess.check_output(cmd, text=True).rstrip('\n')
     except Exception as e:
-        raise AnsibleFilterError('Error in subprocess.check_call in systemd_escape filter plugin:\n%s' % e)
+        raise AnsibleFilterError('Error in subprocess.check_output in systemd_escape filter plugin:\n%s' % e)
 
     return res
 
 def systemd_unescape(s,
-        path=False):
+        path=False,
+        instance=False):
 
-    cmd = SYSTEMD_ESCAPE
+    cmd = []
+    cmd.append(SYSTEMD_ESCAPE)
+    cmd.append('-u')
 
     if path:
-        cmd += " --path"
+        #This won't work because it will add the quote in the path.
+        cmd.append("--path")
 
-    cmd += " '{}'".format(s)
+    if instance:
+        cmd.append("--instance")
+
+    cmd.append(s)
 
     try:
-        res = subprocess.check_call(cmd)
+        res = subprocess.check_output(cmd, text=True).rstrip('\n')
     except Exception as e:
-        raise AnsibleFilterError('Error in subprocess.check_call in systemd_escape filter plugin:\n%s' % e)
+        raise AnsibleFilterError('Error in subprocess.check_output in systemd_escape filter plugin:\n%s' % e)
 
     return res
 
