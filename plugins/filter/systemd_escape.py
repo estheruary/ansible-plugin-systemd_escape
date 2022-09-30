@@ -17,9 +17,9 @@ def systemd_escape(s,
         raise AnsibleFilterError("Options suffix, template, and mangle are mutually exclusive.")
 
     if suffix:
-        cmd.append("--suffix={}".format(suffix))
+        cmd.append("--suffix={0}".format(suffix))
     elif template:
-        cmd.append("--template={}".format(template))
+        cmd.append("--template={0}".format(template))
     elif mangle:
         cmd.append("--mangle")
 
