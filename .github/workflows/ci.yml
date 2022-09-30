@@ -39,12 +39,3 @@ jobs:
         with:
           ansible-core-version: stable-2.14
           testing-type: sanity
-      - name: Perform unit testing with ansible-test
-        uses: ansible-community/ansible-test-gh-action@release/v1
-        with:
-          ansible-core-version: stable-2.14
-          target-python-version: 3.9
-          testing-type: units
-          test-deps: >-
-            ansible.netcommon
-            ansible.utils
