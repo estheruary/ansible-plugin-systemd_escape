@@ -12,7 +12,7 @@ You'll need to have a recent-ish version of systemd on the host where the filer 
   - hosts: all
     tasks:
       - debug:
-          msg: "{{ "Hello, World!" | estheruary.systemd_escape.systemd_escape(path=True, suffix='mount' }}"
+          msg: "{{ 'Hello, World!' | estheruary.systemd_escape.systemd_escape(path=True, suffix='mount' }}"
 ```
 
 ## License
