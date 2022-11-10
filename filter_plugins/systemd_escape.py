@@ -9,23 +9,23 @@ def systemd_escape(s,
         path=False,
         mangle=False):
 
-    cmd = SYSTEMD_ESCAPE
+    cmd = [SYSTEMD_ESCAPE]
 
     # If any two options are truthy.
     if suffix and (template or mangle) or (template and mangle):
         raise AnsibleFilterError("Options suffix, template, and mangle are mutually exclusive.")
 
     if suffix:
-        cmd += " --suffix='{}'".format(suffix)
+        cmd += ["--suffix='{}'".format(suffix)]
     elif template:
-        cmd += " --template='{}'".format(template)
+        cmd += "--template='{}'".format(template)
     elif mangle:
-        cmd += " --mangle"
+        cmd += ["--mangle"]
 
     if path:
-        cmd += " --path"
+        cmd += ["--path"]
 
-    cmd += " '{}'".format(s)
+    cmd += [s]
 
     try:
         res = subprocess.check_call(cmd)
@@ -37,12 +37,12 @@ def systemd_escape(s,
 def systemd_unescape(s,
         path=False):
 
-    cmd = SYSTEMD_ESCAPE
+    cmd = [SYSTEMD_ESCAPE]
 
     if path:
-        cmd += " --path"
+        cmd += ["--path"]
 
-    cmd += " '{}'".format(s)
+    cmd += [s]
 
     try:
         res = subprocess.check_call(cmd)
