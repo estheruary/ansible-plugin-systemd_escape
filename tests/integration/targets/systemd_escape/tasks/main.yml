@@ -1,0 +1,8 @@
+---
+- name: "Check if systemd-escape filter output matches systemd-escape command"
+  ansible.builtin.assert:
+    that:
+      _systemd_escape_cmd == _systemd_escape_filter
+  vars:
+    _systemd_escape_cmd: "{{ lookup('ansible.builtin.pipe', 'systemd-escape --path \"Hello, World!\" --suffix mount' ) }}"
+    _systemd_escape_filter: "{{ 'Hello, World!' | estheruary.systemd_escape.systemd_escape(path=True, suffix='mount' ) }}"

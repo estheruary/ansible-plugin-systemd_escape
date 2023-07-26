@@ -3,11 +3,12 @@ import subprocess
 
 SYSTEMD_ESCAPE = 'systemd-escape'
 
+
 def systemd_escape(s,
-        suffix=None,
-        template=None,
-        path=False,
-        mangle=False):
+                   suffix=None,
+                   template=None,
+                   path=False,
+                   mangle=False):
     cmd = []
     cmd.append(SYSTEMD_ESCAPE)
 
@@ -16,9 +17,9 @@ def systemd_escape(s,
         raise AnsibleFilterError("Options suffix, template, and mangle are mutually exclusive.")
 
     if suffix:
-        cmd.append("--suffix={}".format(suffix))
+        cmd.append("--suffix={0}".format(suffix))
     elif template:
-        cmd.append("--template={}".format(template))
+        cmd.append("--template={0}".format(template))
     elif mangle:
         cmd.append("--mangle")
 
@@ -34,16 +35,17 @@ def systemd_escape(s,
 
     return res
 
+
 def systemd_unescape(s,
-        path=False,
-        instance=False):
+                     path=False,
+                     instance=False):
 
     cmd = []
     cmd.append(SYSTEMD_ESCAPE)
     cmd.append('-u')
 
     if path:
-        #This won't work because it will add the quote in the path.
+        # This won't work because it will add the quote in the path.
         cmd.append("--path")
 
     if instance:
@@ -57,6 +59,7 @@ def systemd_unescape(s,
         raise AnsibleFilterError('Error in subprocess.check_output in systemd_escape filter plugin:\n%s' % e)
 
     return res
+
 
 class FilterModule(object):
     def filters(self):

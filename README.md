@@ -1,28 +1,24 @@
-Ansible Plug-in for `systemd-escape`
-=========
+# Ansible Collection - estheruary.systemd_escape
 
-An Ansible plug-in which uses `systemd-escape` to manipulate strings for use in systemd units.
+An Ansible filter plug-in which uses `systemd-escape` to manipulate strings for use in systemd units.
 
-Requirements
-------------
+## Requirements
 
 You'll need to have a recent-ish version of systemd on the host where the filer will be running.
 
-Example Playbook
-----------------
+## Example Playbook
+```yaml
+---
+  - hosts: all
+    tasks:
+      - debug:
+          msg: "{{ 'Hello, World!' | estheruary.systemd_escape.systemd_escape(path=True, suffix='mount' }}"
+```
 
-    - hosts: servers
-      roles:
-        - ansible-plugin-systemd_escape
-      tasks:
-        - debug: msg={{ "Hello, World!" | systemd_escape }}
-
-License
--------
+## License
 
 GPLv3
 
-Author Information
-------------------
+## Author Information
 
 * Estelle Poulin <dev@inspiredby.es>
